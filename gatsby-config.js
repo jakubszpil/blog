@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Blog`,
+    description: `Mini blog by Jakub Szpil`,
+    author: `Jakub Szpil`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -25,6 +25,14 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        typeName: "BLOG",
+        fieldName: "blog",
+        url: "https://api-euwest.graphcms.com/v1/ck7ows82m20aw01fxhuot6ypj/master",
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

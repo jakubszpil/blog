@@ -1,21 +1,63 @@
 import React from "react"
-import { Link } from "gatsby"
-
+import { Link, graphql } from 'gatsby'
+import SEO from '../components/seo'
 import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
 
-const IndexPage = () => (
+const IndexPage = ({ data: {
+  allSitePage: {
+    edges
+  }
+} }) => (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+    { edges.map(page => {
+
+      const { id, title, content } = page.node.context.data
+      const { path } = page.node
+      const contentTEXT = content.text.length < 30 ? content.text : `${content.text.slice(0,30)}...`
+      return (
+        <Link to={path} key={id}>
+          <h1>{title}</h1>
+          <p dangerouslySetInnerHTML={{ __html: contentTEXT}}></p>
+        </Link>
+      )
+    }) }
   </Layout>
 )
+
+export const allPagesQuery = graphql`
+{
+  allSitePage(
+    filter: {
+      component: {
+        eq: "C:/Users/Kuba/Desktop/blog/src/templates/postTemplate.js"
+      }
+    }
+    sort: {
+    fields: [context___data___updatedAt]
+    order: DESC
+  }
+    
+  ) {
+    edges {
+      node {
+        id
+        path
+        component
+        context {
+          data {
+            id
+            title
+            content {
+              html
+              text
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
 
 export default IndexPage
