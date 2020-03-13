@@ -3,6 +3,9 @@ import { Link, graphql } from 'gatsby'
 import SEO from '../components/seo'
 import Layout from "../components/layout"
 
+
+const path = require('path')
+
 const IndexPage = ({ data: {
   allSitePage: {
     edges
@@ -28,11 +31,7 @@ const IndexPage = ({ data: {
 export const allPagesQuery = graphql`
 {
   allSitePage(
-    filter: {
-      component: {
-        eq: "C:/Users/Kuba/Desktop/blog/src/templates/postTemplate.js"
-      }
-    }
+    filter: { componentChunkName: { eq: "component---src-templates-post-template-js" }}
     sort: {
     fields: [context___data___updatedAt]
     order: DESC
